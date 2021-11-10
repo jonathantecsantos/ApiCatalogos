@@ -19,6 +19,8 @@ namespace ApiCatalogos
 {
     public class Startup
     {
+        private string basePath;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,6 +40,8 @@ namespace ApiCatalogos
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+                c.IncludeXmlComments(Path.Combine(basePath, fileName));
             });
         }
 
@@ -64,6 +68,7 @@ namespace ApiCatalogos
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api curso");
                 c.RoutePrefix = string.Empty; //swagger
+
             });
         }
     }
